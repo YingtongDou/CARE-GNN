@@ -1,0 +1,7 @@
+
+*.xml
+.idea/$CACHE_FILE$
+*.iml
+.idea/dictionaries
+*.mat
+backup.py
