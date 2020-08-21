@@ -1,7 +1,6 @@
 # CARE-GNN
 
-A PyTorch implementation for [CIKM 2020](https://www.cikm2020.org/) paper below:  
-
+A PyTorch implementation for the [CIKM 2020](https://www.cikm2020.org/) paper below:  
 **Enhancing Graph Neural Network-based Fraud Detectors against Camouflaged Fraudsters**.  
 [Yingtong Dou](http://ytongdou.com/), [Zhiwei Liu](https://sites.google.com/view/zhiwei-jim), [Li Sun](https://www.researchgate.net/profile/Li_Sun118), Yutong Deng, [Hao Peng](https://penghao-buaa.github.io/), [Philip S. Yu](https://www.cs.uic.edu/PSYu/).  
 \[[Paper](https://arxiv.org/pdf/2008.08692.pdf)\]\[[Toolbox](https://github.com/safe-graph/DGFraud)\]
