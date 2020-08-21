@@ -10,7 +10,7 @@ A PyTorch implementation for the [CIKM 2020](https://www.cikm2020.org/) paper be
 <p align="center">
     <br>
     <a href="https://github.com/YingtongDou/CARE-GNN">
-        <img src="https://github.com/YingtongDou/CARE-GNN/blob/master/model.png" width="600"/>
+        <img src="https://github.com/YingtongDou/CARE-GNN/blob/master/model.png" width="900"/>
     </a>
     <br>
 <p>
