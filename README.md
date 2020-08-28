@@ -48,16 +48,16 @@ To run the code, you need to have at least **Python 3.6** or later versions.
 
 1. In CARE-GNN directory, run `unzip /data/Amazon.zip` and `unzip /data/YelpChi.zip` to unzip the datasets; 
 2. Run `python data_process.py` to generate adjacency lists used by CARE-GNN;
-3. Run `python -m train.py` to run CARE-GNN with default settings.
+3. Run `python train.py` to run CARE-GNN with default settings.
 
-For the other dataset and parameter settings, please refer to the arg parser in `train.py`. Our model supports both CPU and GPU mode.
+For other dataset and parameter settings, please refer to the arg parser in `train.py`. Our model supports both CPU and GPU mode.
 
 ## Running on your datasets
 
 To run CARE-GNN on your datasets, you need to prepare the following data:
 
 - Multiple-single relation graphs with the same nodes where each graph is stored in `scipy.sparse` matrix format, you can use `sparse_to_adjlist()` in `utils.py` to transfer the sparse matrix into adjacency lists used by CARE-GNN;
-- A numpy array with node labels Currently, CARE-GNN only supports binary classification;
+- A numpy array with node labels. Currently, CARE-GNN only supports binary classification;
 - A node feature matrix stored in `scipy.sparse` matrix format. 
 
 ### Repo Structure
@@ -68,7 +68,7 @@ The repository is organized as follows:
 - `layers.py`: CARE-GNN layers implementations;
 - `model.py`: CARE-GNN model implementations;
 - `train.py`: training and testing all models;
-- `utils.py`: utility functions for data i\o and model evaluation.
+- `utils.py`: utility functions for data i/o and model evaluation.
 
 ## Citation
 If you use our code, please cite the paper below:
