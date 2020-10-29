@@ -383,7 +383,7 @@ def weight_inter_agg(num_relations, self_feats, neigh_feats, embed_dim, weight, 
 	neigh_h = weight.mm(neigh_feats.t())
 
 	# compute relation weights using softmax
-	w = F.softmax(alpha, dim=0)
+	w = F.softmax(alpha, dim=1)
 
 	# initialize the final neighbor embedding
 	if cuda:
