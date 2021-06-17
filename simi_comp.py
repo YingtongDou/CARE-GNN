@@ -65,4 +65,3 @@ for net, pos_idx in zip(net_list, pos_idx_list):
 
 print(f'feature_simi: {feature_simi_list}')
 print(f'label_simi: {label_simi_list}')
-ß
