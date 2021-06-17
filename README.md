@@ -5,6 +5,40 @@ A PyTorch implementation for the [CIKM 2020](https://www.cikm2020.org/) paper be
 [Yingtong Dou](http://ytongdou.com/), [Zhiwei Liu](https://sites.google.com/view/zhiwei-jim), [Li Sun](https://www.researchgate.net/profile/Li_Sun118), Yutong Deng, [Hao Peng](https://penghao-buaa.github.io/), [Philip S. Yu](https://www.cs.uic.edu/PSYu/).  
 \[[Paper](https://arxiv.org/pdf/2008.08692.pdf)\]\[[Toolbox](https://github.com/safe-graph/DGFraud)\]
 
+## Bug Fixes and Update (06/2021)
+
+### Similarity score
+The feature and label similarity scores presented in Table 2 of the paper are incorrect. The updated equations for calculating two similarity scores are shown below:
+<p align="center">
+    <br>
+    <a href="https://github.com/YingtongDou/CARE-GNN">
+        <img src="https://github.com/YingtongDou/CARE-GNN/blob/master/eq_simi.png" width="400"/>
+    </a>
+    <br>
+<p>
+The code for calculating the similarity scores is in `[simi_comp.py](https://github.com/YingtongDou/CARE-GNN/blob/master/simi_comp.py)`.
+
+The updated similarity scores for the two datasets are shown below. Note that we only compute the similarity scores for positive nodes to demonstrate the camouflage of fraudsters (positive nodes).
+
+| YelpChi  | rur  | rtr  | rsr  | homo  |
+|-------|--------|--------|--------|--------|
+| Avg. Feature Similarity | 0.991   |   0.988    |  0.988  | 0.988  |
+| Avg. Label Similarity |  0.909  |   0.176   |  0.186  | 0.184  |
+
+| Amazon  | upu  | usu  | uvu  | homo  |
+|-------|--------|--------|--------|--------|
+| Avg. Feature Similarity | 0.711   |   0.687    |  0.697  | 0.687  |
+| Avg. Label Similarity |  0.167  |   0.056   |  0.053  | 0.072  |
+
+### Relation weight in Figure 3
+
+According to this [issue](https://github.com/YingtongDou/CARE-GNN/issues/5), the weighted aggregation of CARE-Weight (a variant of CARE-GNN) has an error. After fixing it, the relation weight will not converge to the same value. Thus, the relation weight subfigure in Figure 3 and its associated conclusion are wrong.
+
+### Extended version CARE-GNN
+
+Please check out [RioGNN](https://github.com/safe-graph/RioGNN), a GNN model extended based on CARE-GNN with more reinforcement learning modules integrated. We are actively developing an efficient multi-layer version of CARE-GNN. Stay tuned.
+
+
 ## Overview
 
 <p align="center">
