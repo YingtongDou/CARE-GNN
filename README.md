@@ -12,11 +12,11 @@ The feature and label similarity scores presented in Table 2 of the paper are in
 <p align="center">
     <br>
     <a href="https://github.com/YingtongDou/CARE-GNN">
-        <img src="https://github.com/YingtongDou/CARE-GNN/blob/master/eq_simi.png" width="400"/>
+        <img src="https://github.com/YingtongDou/CARE-GNN/blob/master/eq_simi.png" width="500"/>
     </a>
     <br>
 <p>
-The code for calculating the similarity scores is in `[simi_comp.py](https://github.com/YingtongDou/CARE-GNN/blob/master/simi_comp.py)`.
+The code for calculating the similarity scores is in [simi_comp.py](https://github.com/YingtongDou/CARE-GNN/blob/master/simi_comp.py).
 
 The updated similarity scores for the two datasets are shown below. Note that we only compute the similarity scores for positive nodes to demonstrate the camouflage of fraudsters (positive nodes).
 
