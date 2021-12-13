@@ -3,7 +3,7 @@
 A PyTorch implementation for the [CIKM 2020](https://www.cikm2020.org/) paper below:  
 **Enhancing Graph Neural Network-based Fraud Detectors against Camouflaged Fraudsters**.  
 [Yingtong Dou](http://ytongdou.com/), [Zhiwei Liu](https://sites.google.com/view/zhiwei-jim), [Li Sun](https://www.researchgate.net/profile/Li_Sun118), Yutong Deng, [Hao Peng](https://penghao-buaa.github.io/), [Philip S. Yu](https://www.cs.uic.edu/PSYu/).  
-\[[Paper](https://arxiv.org/pdf/2008.08692.pdf)\]\[[Toolbox](https://github.com/safe-graph/DGFraud)\]\[[DGL Example](https://github.com/dmlc/dgl/tree/master/examples/pytorch/caregnn)\]
+\[[Paper](https://arxiv.org/pdf/2008.08692.pdf)\]\[[Toolbox](https://github.com/safe-graph/DGFraud)\]\[[DGL Example](https://github.com/dmlc/dgl/tree/master/examples/pytorch/caregnn)\]\[[Benchmark](https://paperswithcode.com/paper/enhancing-graph-neural-network-based-fraud)\]
 
 ## Bug Fixes and Update (06/2021)
 
