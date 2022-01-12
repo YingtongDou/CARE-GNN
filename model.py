@@ -26,20 +26,22 @@ class OneLayerCARE(nn.Module):
 		self.xent = nn.CrossEntropyLoss()
 
 		# the parameter to transform the final embedding
-		self.weight = nn.Parameter(torch.FloatTensor(num_classes, inter1.embed_dim))
+		self.weight = nn.Parameter(torch.FloatTensor(inter1.embed_dim, num_classes))
 		init.xavier_uniform_(self.weight)
 		self.lambda_1 = lambda_1
 
 	def forward(self, nodes, labels, train_flag=True):
 		embeds1, label_scores = self.inter1(nodes, labels, train_flag)
-		scores = self.weight.mm(embeds1)
-		return scores.t(), label_scores
+		scores = torch.mm(embeds1, self.weight)
+		gnn_logits = torch.sigmoid(scores)
+ 		label_logits = torch.sigmoid(label_scores)
+		return gnn_logits, label_logits
 
 	def to_prob(self, nodes, labels, train_flag=True):
 		gnn_logits, label_logits = self.forward(nodes, labels, train_flag)
-		gnn_scores = torch.sigmoid(gnn_logits)
-		label_scores = torch.sigmoid(label_logits)
-		return gnn_scores, label_scores
+		gnn_prob = nn.functional.softmax(gnn_logits, dim=1)
+		label_prob = nn.functional.softmax(label_logits, dim=1)
+		return gnn_prob, label_prob
 
 	def loss(self, nodes, labels, train_flag=True):
 		gnn_scores, label_scores = self.forward(nodes, labels, train_flag)
