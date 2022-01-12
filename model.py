@@ -33,13 +33,15 @@ class OneLayerCARE(nn.Module):
 	def forward(self, nodes, labels, train_flag=True):
 		embeds1, label_scores = self.inter1(nodes, labels, train_flag)
 		scores = torch.mm(embeds1, self.weight)
-		return scores, label_scores
+		gnn_logits = torch.sigmoid(scores)
+ 		label_logits = torch.sigmoid(label_scores)
+		return gnn_logits, label_logits
 
 	def to_prob(self, nodes, labels, train_flag=True):
 		gnn_logits, label_logits = self.forward(nodes, labels, train_flag)
-		gnn_scores = nn.functional.softmax(gnn_logits, dim=1)
-		label_scores = nn.functional.softmax(label_logits, dim=1)
-		return gnn_scores, label_scores
+		gnn_prob = nn.functional.softmax(gnn_logits, dim=1)
+		label_prob = nn.functional.softmax(label_logits, dim=1)
+		return gnn_prob, label_prob
 
 	def loss(self, nodes, labels, train_flag=True):
 		gnn_scores, label_scores = self.forward(nodes, labels, train_flag)
