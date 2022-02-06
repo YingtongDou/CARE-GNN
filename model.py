@@ -23,7 +23,7 @@ class OneLayerCARE(nn.Module):
 		"""
 		super(OneLayerCARE, self).__init__()
 		self.inter1 = inter1
-		self.xent = nn.NLLLoss()
+		self.xent = nn.CrossEntropyLoss()
 
 		# the parameter to transform the final embedding
 		self.weight = nn.Parameter(torch.FloatTensor(inter1.embed_dim, num_classes))
