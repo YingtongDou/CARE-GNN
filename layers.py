@@ -61,7 +61,7 @@ class InterAgg(nn.Module):
 		self.leakyrelu = nn.LeakyReLU(0.2)
 
 		# parameter used to transform node embeddings before inter-relation aggregation
-		self.weight = nn.Parameter(torch.FloatTensor(self.embed_dim, self.feat_dim))
+		self.weight = nn.Parameter(torch.FloatTensor(self.feat_dim, self.embed_dim))
 		init.xavier_uniform_(self.weight)
 
 		# weight parameter for each relation used by CARE-Weight
@@ -343,18 +343,18 @@ def mean_inter_agg(num_relations, self_feats, neigh_feats, embed_dim, weight, n,
 	"""
 
 	# transform batch node embedding and neighbor embedding in each relation with weight parameter
-	center_h = weight.mm(self_feats.t())
-	neigh_h = weight.mm(neigh_feats.t())
+	center_h = torch.mm(self_feats, weight)
+	neigh_h = torch.mm(neigh_feats, weight)
 
 	# initialize the final neighbor embedding
 	if cuda:
-		aggregated = torch.zeros(size=(embed_dim, n)).cuda()
+		aggregated = torch.zeros(size=(n, embed_dim)).cuda()
 	else:
-		aggregated = torch.zeros(size=(embed_dim, n))
+		aggregated = torch.zeros(size=(n, embed_dim))
 
 	# sum neighbor embeddings together
 	for r in range(num_relations):
-		aggregated += neigh_h[:, r * n:(r + 1) * n]
+		aggregated += neigh_h[r * n:(r + 1) * n, :]
 
 	# sum aggregated neighbor embedding and batch node embedding
 	# take the average of embedding and feed them to activation function
@@ -379,21 +379,21 @@ def weight_inter_agg(num_relations, self_feats, neigh_feats, embed_dim, weight, 
 	"""
 
 	# transform batch node embedding and neighbor embedding in each relation with weight parameter
-	center_h = weight.mm(self_feats.t())
-	neigh_h = weight.mm(neigh_feats.t())
+	center_h = torch.mm(self_feats, weight)
+	neigh_h = torch.mm(neigh_feats, weight)
 
 	# compute relation weights using softmax
 	w = F.softmax(alpha, dim=1)
 
 	# initialize the final neighbor embedding
 	if cuda:
-		aggregated = torch.zeros(size=(embed_dim, n)).cuda()
+		aggregated = torch.zeros(size=(n, embed_dim)).cuda()
 	else:
-		aggregated = torch.zeros(size=(embed_dim, n))
+		aggregated = torch.zeros(size=(n, embed_dim))
 
 	# add weighted neighbor embeddings in each relation together
 	for r in range(num_relations):
-		aggregated += torch.mul(w[:, r].unsqueeze(1).repeat(1, n), neigh_h[:, r * n:(r + 1) * n])
+		aggregated += neigh_h[r * n:(r + 1) * n, :] * w[:, r]
 
 	# sum aggregated neighbor embedding and batch node embedding
 	# feed them to activation function
@@ -422,9 +422,11 @@ def att_inter_agg(num_relations, att_layer, self_feats, neigh_feats, embed_dim, 
 	"""
 
 	# transform batch node embedding and neighbor embedding in each relation with weight parameter
-	center_h = self_feats.mm(weight.t())
-	neigh_h = neigh_feats.mm(weight.t())
+	center_h = torch.mm(self_feats, weight)
+	neigh_h = torch.mm(neigh_feats, weight)
 
+	import pdb
+	pdb.set_trace()
 	# compute attention weights
 	combined = torch.cat((center_h.repeat(3, 1), neigh_h), dim=1)
 	e = att_layer(combined.mm(a))
@@ -444,7 +446,7 @@ def att_inter_agg(num_relations, att_layer, self_feats, neigh_feats, embed_dim, 
 
 	# sum aggregated neighbor embedding and batch node embedding
 	# feed them to activation function
-	combined = F.relu((center_h + aggregated).t())
+	combined = F.relu((center_h + aggregated))
 
 	# extract the attention weights
 	att = F.softmax(torch.sum(ori_attention, dim=0), dim=0)
@@ -468,22 +470,18 @@ def threshold_inter_agg(num_relations, self_feats, neigh_feats, embed_dim, weigh
 	"""
 
 	# transform batch node embedding and neighbor embedding in each relation with weight parameter
-	center_h = weight.mm(self_feats.t())
-	neigh_h = weight.mm(neigh_feats.t())
+	center_h = torch.mm(self_feats, weight)
+	neigh_h = torch.mm(neigh_feats, weight)
 
+	# initialize the final neighbor embedding
 	if cuda:
-		# use thresholds as aggregating weights
-		w = torch.FloatTensor(threshold).repeat(weight.size(0), 1).cuda()
-
-		# initialize the final neighbor embedding
-		aggregated = torch.zeros(size=(embed_dim, n)).cuda()
+		aggregated = torch.zeros(size=(n, embed_dim)).cuda()
 	else:
-		w = torch.FloatTensor(threshold).repeat(weight.size(0), 1)
-		aggregated = torch.zeros(size=(embed_dim, n))
+		aggregated = torch.zeros(size=(n, embed_dim))
 
 	# add weighted neighbor embeddings in each relation together
 	for r in range(num_relations):
-		aggregated += torch.mul(w[:, r].unsqueeze(1).repeat(1, n), neigh_h[:, r * n:(r + 1) * n])
+		aggregated += neigh_h[r * n:(r + 1) * n, :] * threshold[r]
 
 	# sum aggregated neighbor embedding and batch node embedding
 	# feed them to activation function
